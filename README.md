@@ -1,44 +1,58 @@
 # Legohat
 
-Legohat is an Android application designed to securely manage and browse files on a remote PC via SSH/SFTP. It features a modern Jetpack Compose UI with adaptive navigation and encrypted credential storage.
+Legohat is an Android application designed to securely manage, browse, and interact with files on a remote PC or Raspberry Pi via SSH/SFTP. It is specifically optimized for controlling LEGO® motors using the Raspberry Pi Build HAT.
 
 ## Features
 
-- **Secure SSH/SFTP Connection**: Connect to any remote PC using IP address, username, and password.
-- **Remote File Browsing**: Specify a remote path to list and view files in a scrollable, terminal-style list.
-- **Encrypted Storage**: All credentials (IP, username, password, and path) are stored securely using Android's `EncryptedSharedPreferences` (AES-256-GCM).
-- **Modern UI**: Built with Jetpack Compose and Material 3, including an adaptive navigation suite.
-- **Persistence**: Configuration is automatically saved upon successful connection and reloaded when the app starts.
+- **Secure SSH/SFTP Connection**: Connect to any remote device using IP address, username, and password.
+- **Remote File Management**:
+    - **Browsing**: List and view files in a terminal-style list.
+    - **Editing**: Built-in text editor to modify remote scripts directly from the app.
+    - **Execution**: Run Python scripts (using `python -u`) or binaries with real-time shell output.
+- **Real-time Terminal Output**: A dedicated console view with automatic scrolling and word wrap to monitor your program's output.
+- **Build HAT Remote Control**: Automatic full-screen remote control interface when running `remote.py`, featuring:
+    - Independent control for 4 motors (A, B, C, D).
+    - Mapped keys for movement: `q/a`, `w/s`, `e/d`, `r/f`.
+    - **Quick Stop**: Dedicated "OFF" button (key `z`) to halt operations.
+    - Interactive xterm-compatible terminal emulation.
+- **Encrypted Storage & Favorites**: 
+    - Securely stores credentials using Android's `EncryptedSharedPreferences` (AES-256-GCM).
+    - **Favorites Tab**: Quickly switch between previously used servers with one tap.
+- **Modern UI**: Adaptive navigation and Material 3 design.
+
+## Hardware Integration
+
+This app is designed to work seamlessly with the **Raspberry Pi Build HAT**, which allows you to control LEGO® Technic™ motors and sensors from your Raspberry Pi.
+
+- **Learn more about the Build HAT**: [https://www.raspberrypi.com/products/build-hat/](https://www.raspberrypi.com/products/build-hat/)
 
 ## Prerequisites
 
 - Android 13 (API 33) or higher.
-- A remote PC with an SSH/SFTP server enabled.
-- Both devices must be on the same network (unless using a public IP/VPN).
+- A remote device (e.g., Raspberry Pi) with SSH/SFTP server enabled.
+- For motor control: Raspberry Pi Build HAT and compatible LEGO motors.
 
 ## Tech Stack
 
-- **Kotlin**: Primary programming language.
-- **Jetpack Compose**: For the declarative UI.
+- **Kotlin** & **Jetpack Compose**.
 - **Material 3**: Design system.
-- **JSch**: Java library for SSH2 protocol.
-- **Android Security Crypto**: For encrypted data storage.
-- **Coroutines**: For asynchronous network operations.
+- **JSch**: SSH2 protocol implementation with PTY support.
+- **Android Security Crypto**: For hardware-backed credential encryption.
+- **Coroutines**: For asynchronous networking.
 
 ## Installation
 
 1. Clone this repository.
-2. Open the project in Android Studio (Ladybug or newer recommended).
-3. Build and run the app on an emulator or physical device.
+2. Open the project in Android Studio.
+3. Build and run the app on your Android device.
 
 ## Configuration
 
-Go to the **Profile** tab to enter your SSH details:
-- **PC IP Address**: The local or public IP of your target machine.
-- **Username**: Your SSH username.
-- **Password**: Your SSH password.
-- **Remote Path**: The directory you want to list (e.g., `/home/username/`).
+1. Go to the **Profile** tab.
+2. Enter your device's IP, username, password, and the path to your scripts.
+3. Connect once to save the server to your **Favorites**.
+4. To use the remote control, ensure your script is named `remote.py` and uses raw input/tty for keyboard commands.
 
 ## License
 
-This project is for educational/personal use. Please ensure you have permission to connect to the remote devices you configure.
+This project is for educational and personal use. LEGO® is a trademark of the LEGO Group.

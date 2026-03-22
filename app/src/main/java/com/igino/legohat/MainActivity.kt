@@ -747,12 +747,22 @@ fun RemoteControlScreen(
             MotorControl("Motor D", "r", "f", onSendKey)
         }
         
-        Button(
-            onClick = onExit,
-            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error),
-            modifier = Modifier.fillMaxWidth(0.5f).height(56.dp)
-        ) {
-            Text("EXIT (x)", fontSize = 18.sp)
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+            Button(
+                onClick = { onSendKey("z") },
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.tertiary),
+                modifier = Modifier.weight(1f).height(56.dp)
+            ) {
+                Text("OFF (z)", fontSize = 18.sp)
+            }
+            
+            Button(
+                onClick = onExit,
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error),
+                modifier = Modifier.weight(1f).height(56.dp)
+            ) {
+                Text("EXIT (x)", fontSize = 18.sp)
+            }
         }
     }
 }
@@ -812,14 +822,12 @@ suspend fun runSshInteractive(
             val inputStream = channel.inputStream
             val errorStream = channel.errStream
             
-            // Usiamo un PipedOutputStream per inviare i dati affidabilmente
             val pipedOut = PipedOutputStream()
             val pipedIn = PipedInputStream(pipedOut)
             channel.setInputStream(pipedIn)
             
             channel.connect()
             
-            // Comunichiamo alla UI lo stream su cui scrivere
             withContext(Dispatchers.Main) { onStreamReady(pipedOut) }
             
             val buffer = ByteArray(1024)
